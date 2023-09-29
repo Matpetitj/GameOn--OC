@@ -19,11 +19,11 @@ function closeModal() {
 closingCross.addEventListener('click', closeModal);
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modalbg) {
-    modalbg.style.display = "none";
-  }
-}
+// window.onclick = function(event) {
+//   if (event.target == modalbg) {
+//     modalbg.style.display = "none";
+//   }
+// }
 
 // Function nav responsive
 function editNav() {

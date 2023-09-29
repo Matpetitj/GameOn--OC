@@ -7,83 +7,74 @@
 const firstName = document.getElementById('first');
 const lastName = document.getElementById('last');
 const email = document.getElementById('email');
-const birthDate = document.getElementById('birthdate');
+const birthdate = document.getElementById('birthdate');
 const quantity = document.getElementById('quantity');
+// const formSubmit = document.getElementsByClassName('.btn-submit');
 const form = document.getElementById('form');
-const checkbox1 = document.getElementById('checkbox1');
 const input = document.getElementsByClassName('text-control');
-// const locations = document.getElementById('location');
-// const location = document.querySelectorAll('#locations .checkbox-input');
-const regex = /^([A-Za-z]{2,20})?([-]{0,1})?([A-Za-z]{2,20})$/;
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const birthDateRegex = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
-// function errorAdvert () {
-    
-// }
+const locations = document.getElementsByName('location');
+const locationInput = document.querySelectorAll('#locations .checkbox-input');
+const checkbox1 = document.getElementById('checkbox1');
 
 // Validation de la saisie du prénom
-function firstNameValidation () {
-    if(regex.test(firstName.value)){
-        firstName.style.border = "solid 2px green";
-        return true
-    } else {
-        let errorText = firstName.nextElementSibling;
-        errorText.classList.add("errorText");
-        errorText.textContent = "Erreur dans la saisie";
+
+function nameValidation(element) {
+    const regex = /^([A-Za-z]{2,20})?([-]{0,1})?([A-Za-z]{2,20})$/;
+   let errorMsg = element.nextElementSibling;
+   if(element.value.trim().length <= 2){
+    errorMsg.textContent="Veuillez saisir plus que 2 caracteres";
+    return false;
+    } 
+    if(!regex.test(element.value.trim())){
+        errorMsg.textContent = "Mauvais format du nom";
         return false;
-    }
+    } 
+    errorMsg.textContent = "";
+    return true;
 }
-firstName.addEventListener('change', () => {
-    firstNameValidation();
+
+firstName.addEventListener('change', (e) => {
+    e.preventDefault();
+    nameValidation(firstName);
 });
 
-function lastNameValidation() {
-    if(regex.test(lastName.value)) {
-        lastName.style.border = "solid 2px green";
-        return true;
-    } else {
-        let errorText = lastName.nextElementSibling;
-        errorText.classList.add("errorText");
-        errorText.textContent = "Erreur dans la saisie";
-        return false;
-    }
-}
-lastName.addEventListener('change', () => {
-    lastNameValidation();
+lastName.addEventListener('change', (e) => {
+    e.preventDefault();
+    nameValidation(lastName);
 });
 
 function emailValidation() {
-    if(emailRegex.test(email.value)){
-        email.style.border = "solid 2px green";
-        return true;
-    } else {
-        let errorText = email.nextElementSibling;
-        errorText.classList.add("errorText");
-        errorText.textContent = "Mauvais format d'adresse mail";
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let errorMsg = email.nextElementSibling;
+    if(!emailRegex.test(email.value.trim())){
+        errorMsg.textContent = "Mauvais format d'adresse mail";
         return false;
-    }
+    } 
+    errorMsg.textContent = "";
+    return true;
 }
-email.addEventListener('change', () => {
+email.addEventListener('change', (e) => {
+    e.preventDefault();
     emailValidation();
 });
-
-function birthDateValidation() {
-    if(birthDateRegex.test(birthDate.value)){
-        birthDate.style.border = "solid 2px green";
+/*
+function birthdateValidation() {
+    if(birthdate.value.trim().length !== 10){
+        birthdate.style.border = "solid 2px green";
         return true;
     } else {
-        let errorText = birthDate.nextElementSibling;
+        let errorText = birthdate.nextElementSibling;
         errorText.classList.add("errorText");
         errorText.textContent = "Erreur dans la saisie";
         return false;
     }
 }
-birthDate.addEventListener('change', () => {
-    birthDateValidation();
+birthdate.addEventListener('change', () => {
+    birthdateValidation();
 });
 
 function quantityValidation() {
-    if(quantity.value >= 0 && quantity.value < 999){
+    if(quantity.value >= 0){
         return true;
     } else {
         let errorText = quantity.nextElementSibling;
@@ -97,19 +88,68 @@ quantity.addEventListener('change', () => {
     quantityValidation();
 });
 
+function checkboxLocation () {
+    
+    for(let i = 0; locations.length; i++){
+
+        if(locations[i].checked) {
+            let errorText = locationInput.nextElementSibling;
+            errorText.classList.add("errorText");
+            errorText.style.color = "green";
+            errorText.textContent = "Destination valide ! ";
+            return true;
+        } else {
+            let errorText = locationInput.nextElementSibling;
+            errorText.classList.add("errorText");
+            errorText.style.color = "red";
+            errorText.textContent = "Choisissez une destination :)";
+            return false;
+        }
+    }
+}
+
+locations.forEach((locationInput) => locationInput.addEventListener('change', function (){
+    checkboxLocation();
+}))
+
+function checkboxControle() {
+    if(checkbox1.checked){
+        return true;
+    } else {
+        let errorText = checkbox1.nextElementSibling;
+        errorText.classList.add("errorText");
+        errorText.style.color = "red";
+        errorText.textContent = "Choisissez une destination :)";
+        return false;
+    }
+}
+
+checkbox1.addEventListener('change', () => {
+    checkboxControle();
+})
 
 
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+      if (firstNameValidation ||
+        lastNameValidation ||
+        emailValidation ||
+        birthdateValidation ||
+        quantityValidation ||
+        checkboxLocation  ||
+        checkboxControle 
+        ) {
+            alert("Veuillez verifier le formulaire ! ");
+        }
+        else{
+            //envoi du formulaire
+            closeForm();
+            
+            //Envoyer les données du formulaire sur la console 
+            //vider les champs du formulaire (reset )
+            //cacher le formulaire et afficher un message de confirmation  sur la meme modale 
+            
+        }
 
-
-
-// function formValidation () {
-//     if (firstNameValidation === true &&
-//         lastNameValidation === true &&
-//         emailValidation === true &&
-//         birthDateValidation === true &&
-//         quantityValidation === true &&
-//         ) {
-//             return true;
-//         }
-//     return false;
-// } 
+});
+*/
