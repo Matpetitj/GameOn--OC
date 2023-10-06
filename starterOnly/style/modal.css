@@ -355,6 +355,13 @@ input[data-error]::after {
   background-color: #fff;
 }
 
+/*Style the error message: */
+
+.errorText {
+  color: rgb(218, 3, 3);
+  font-size: 18px;
+}
+
 /* Style the arrow inside the select element: */
 .select-selected:after {
   position: absolute;

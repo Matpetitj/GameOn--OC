@@ -13,20 +13,20 @@ const quantity = document.getElementById('quantity');
 const form = document.getElementById('form');
 const input = document.getElementsByClassName('text-control');
 const locations = document.getElementsByName('location');
+const locationsContainer = document.getElementById('locations');
 const locationInput = document.querySelectorAll('#locations .checkbox-input');
 const checkbox1 = document.getElementById('checkbox1');
 
 // Validation de la saisie du prénom
-
 function nameValidation(element) {
-    const regex = /^([A-Za-z]{2,20})?([-]{0,1})?([A-Za-z]{2,20})$/;
+const regex = /^([A-Za-z]{2,20})?([-]{0,1})?([A-Za-z]{2,20})$/;
    let errorMsg = element.nextElementSibling;
    if(element.value.trim().length <= 2){
-    errorMsg.textContent="Veuillez saisir plus que 2 caracteres";
+    errorMsg.textContent="Veuillez saisir plus de 2 caractères (A-Z)";
     return false;
     } 
     if(!regex.test(element.value.trim())){
-        errorMsg.textContent = "Mauvais format du nom";
+        errorMsg.textContent = "Mauvais format de nom (A-Z)";
         return false;
     } 
     errorMsg.textContent = "";
@@ -43,11 +43,12 @@ lastName.addEventListener('change', (e) => {
     nameValidation(lastName);
 });
 
+//Fonction de validation de l'adresse mail
 function emailValidation() {
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errorMsg = email.nextElementSibling;
     if(!emailRegex.test(email.value.trim())){
-        errorMsg.textContent = "Mauvais format d'adresse mail";
+        errorMsg.textContent = "Mauvais format de l'adresse mail";
         return false;
     } 
     errorMsg.textContent = "";
@@ -57,99 +58,100 @@ email.addEventListener('change', (e) => {
     e.preventDefault();
     emailValidation();
 });
-/*
+
+//Fonction de validation de la date naissance
 function birthdateValidation() {
+    let errorMsg = birthdate.nextElementSibling;
     if(birthdate.value.trim().length !== 10){
-        birthdate.style.border = "solid 2px green";
-        return true;
-    } else {
-        let errorText = birthdate.nextElementSibling;
-        errorText.classList.add("errorText");
-        errorText.textContent = "Erreur dans la saisie";
+        errorMsg.textContent = "Veuillez donner une date valide";
         return false;
+    } else {
+        errorMsg.textContent = "";
+        return true;
     }
 }
-birthdate.addEventListener('change', () => {
+
+birthdate.addEventListener('change', (e) => {
+    e.preventDefault();
     birthdateValidation();
 });
 
+//Fonction de validation de la quantité
 function quantityValidation() {
-    if(quantity.value >= 0){
-        return true;
-    } else {
-        let errorText = quantity.nextElementSibling;
-        errorText.classList.add("errorText");
-        errorText.textContent = "Veuillez indiquer un nombre correct de tournois";
+    let errorMsg = quantity.nextElementSibling;
+    if(quantity.value < 1 || quantity.value > 99){
+        errorMsg.textContent = "Veuillez donner un nombre valide";
         return false;
+    } else { 
+        errorMsg.textContent = "";
+        return true;
     }
 }
 
-quantity.addEventListener('change', () => {
+quantity.addEventListener('change', (e) => {
+    e.preventDefault();
     quantityValidation();
 });
 
-function checkboxLocation () {
-    
-    for(let i = 0; locations.length; i++){
-
+//Fonction de validation des destinations
+function checkboxLocation() {
+    let isChecked = false; 
+    let errorMsg = locationsContainer.nextElementSibling;
+    for(let i = 0; i<locations.length; i++){
         if(locations[i].checked) {
-            let errorText = locationInput.nextElementSibling;
-            errorText.classList.add("errorText");
-            errorText.style.color = "green";
-            errorText.textContent = "Destination valide ! ";
-            return true;
-        } else {
-            let errorText = locationInput.nextElementSibling;
-            errorText.classList.add("errorText");
-            errorText.style.color = "red";
-            errorText.textContent = "Choisissez une destination :)";
-            return false;
+           isChecked= true;
         }
     }
-}
-
-locations.forEach((locationInput) => locationInput.addEventListener('change', function (){
-    checkboxLocation();
-}))
-
-function checkboxControle() {
-    if(checkbox1.checked){
+    if(isChecked) {
+        errorMsg.textContent = "";
         return true;
     } else {
-        let errorText = checkbox1.nextElementSibling;
-        errorText.classList.add("errorText");
-        errorText.style.color = "red";
-        errorText.textContent = "Choisissez une destination :)";
+        errorMsg.textContent = "Veuillez cocher une destination"
         return false;
     }
 }
 
-checkbox1.addEventListener('change', () => {
+locations.forEach((locationInput) => locationInput.addEventListener('click', function (){
+    checkboxLocation();
+}))
+
+
+function checkboxControle() {
+    let errorMsg = checkbox1.nextElementSibling;
+    if(checkbox1.checked){
+        errorMsg.textContent = "";
+        return true;
+    } else {
+        errorMsg.textContent = "Veuillez accepter les conditions d'utilisation";
+        return false;
+    }
+}
+
+checkbox1.addEventListener('change', (e) => {
+    e.preventDefault();
     checkboxControle();
 })
 
-
-form.addEventListener('submit', function (e) {
-    e.preventDefault();
-      if (firstNameValidation ||
-        lastNameValidation ||
-        emailValidation ||
-        birthdateValidation ||
-        quantityValidation ||
-        checkboxLocation  ||
-        checkboxControle 
+//Fonction de validation du formulaire
+function validate(){
+    event.preventDefault();
+      if (
+        nameValidation(firstName) ||
+        nameValidation(lastName) ||
+        emailValidation() ||
+        birthdateValidation() ||
+        quantityValidation() ||
+        checkboxLocation()  ||
+        checkboxControle() 
         ) {
-            alert("Veuillez verifier le formulaire ! ");
+            alert("Vérifiez le formulaire");
         }
         else{
             //envoi du formulaire
-            closeForm();
-            
             //Envoyer les données du formulaire sur la console 
-            //vider les champs du formulaire (reset )
-            //cacher le formulaire et afficher un message de confirmation  sur la meme modale 
-            
+            console.log(form.value);
+            //Affichage de la modal de confirmation
+            validationWindow();
+            //vider les champs du formulaire (reset ) 
         }
-
-});
-*/
+}
