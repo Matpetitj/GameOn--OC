@@ -16,6 +16,7 @@ const locations = document.getElementsByName('location');
 const locationsContainer = document.getElementById('locations');
 const locationInput = document.querySelectorAll('#locations .checkbox-input');
 const checkbox1 = document.getElementById('checkbox1');
+const checkboxRequired = document.getElementById('checkbox-riquered');
 
 // Validation de la saisie du prénom
 function nameValidation(element) {
@@ -117,8 +118,12 @@ locations.forEach((locationInput) => locationInput.addEventListener('click', fun
 
 
 function checkboxControle() {
-    let errorMsg = checkbox1.nextElementSibling;
+    isChecked = false;
+    let errorMsg = checkboxRequired.nextElementSibling;
     if(checkbox1.checked){
+        isChecked = true;
+    }
+    if(isChecked){
         errorMsg.textContent = "";
         return true;
     } else {
