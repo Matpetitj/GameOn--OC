@@ -34,7 +34,6 @@ img {
   overflow: hidden;
   margin: 3.5%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 .header-logo {
@@ -102,17 +101,13 @@ img {
   }
 }
 
-
-
- @media screen and (max-width: 540px) {
+@media screen and (max-width: 540px) {
   .topnav a {display: none;}
   .topnav a.icon {
     float: right;
     display: block;
   }
 } 
-
-
 
 main {
   font-size: 130%;

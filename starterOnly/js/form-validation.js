@@ -141,20 +141,19 @@ checkbox1.addEventListener('change', (e) => {
 function validate(){
     event.preventDefault();
       if (
-        nameValidation(firstName) ||
-        nameValidation(lastName) ||
-        emailValidation() ||
-        birthdateValidation() ||
-        quantityValidation() ||
-        checkboxLocation()  ||
-        checkboxControle() 
+        !nameValidation(firstName) ||
+        !nameValidation(lastName) ||
+        !emailValidation() ||
+        !birthdateValidation() ||
+        !quantityValidation() ||
+        !checkboxLocation()  ||
+        !checkboxControle() 
         ) {
             alert("Vérifiez le formulaire");
         }
         else{
-            //envoi du formulaire
             //Envoyer les données du formulaire sur la console 
-            console.log(form.value);
+            console.log(firstName.value, lastName.value, email.value, );
             //Affichage de la modal de confirmation
             validationWindow();
             //vider les champs du formulaire (reset ) 
