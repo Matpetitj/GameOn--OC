@@ -1,6 +1,3 @@
-//DOM Elements
-let submitBtn = document.getElementsByClassName(".btn-submit");
-
 // Confirmation d'envoi
 function validationWindow(){
     form.style.display = 'none';
@@ -9,7 +6,11 @@ function validationWindow(){
     validationText.className = "validationText";
     validationText.textContent = "Formulaire envoyé ! ";
     document.querySelector(".modal-body").appendChild(validationText);
-    //Creer un nouveau bouton 
-    //submitBtn.setAttribute(value, "Fermer");
+
+    const buttonConfirmation = document.createElement("button");
+    buttonConfirmation.className = "btn-signup button";
+    buttonConfirmation.textContent = "Fermer";
+    document.querySelector(".modal-body").appendChild(buttonConfirmation);
+    buttonConfirmation.addEventListener('click', closeModal);
 }
 
