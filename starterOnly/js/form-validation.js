@@ -1,15 +1,10 @@
-//type listener à utiliser = change pour attendre la fin de la saisie
-//submit pour le formulaire (send)
-//Regex pour les différents champs de saisie
-//booléen comme valeur de retour pour identifier si je garde les valeurs du formulaire
-//let p = inputlastName.nextElementSibling; juste après l'input seulement pour les messages d'erreur
+// DOM group element
 
 const firstName = document.getElementById('first');
 const lastName = document.getElementById('last');
 const email = document.getElementById('email');
 const birthdate = document.getElementById('birthdate');
 const quantity = document.getElementById('quantity');
-// const formSubmit = document.getElementsByClassName('.btn-submit');
 const form = document.getElementById('form');
 const input = document.getElementsByClassName('text-control');
 const locations = document.getElementsByName('location');
@@ -18,7 +13,7 @@ const locationInput = document.querySelectorAll('#locations .checkbox-input');
 const checkbox1 = document.getElementById('checkbox1');
 const checkboxRequired = document.getElementById('checkbox-riquered');
 
-// Validation de la saisie du prénom
+// Validation de la saisie du prénom et du nom
 function nameValidation(element) {
 const regex = /^([A-Za-z]{2,20})?([-]{0,1})?([A-Za-z]{2,20})$/;
    let errorMsg = element.nextElementSibling;
@@ -33,6 +28,8 @@ const regex = /^([A-Za-z]{2,20})?([-]{0,1})?([A-Za-z]{2,20})$/;
     errorMsg.textContent = "";
     return true;
 }
+
+//Evenement pour prénom et nom
 
 firstName.addEventListener('change', (e) => {
     e.preventDefault();
@@ -116,7 +113,7 @@ locations.forEach((locationInput) => locationInput.addEventListener('click', fun
     checkboxLocation();
 }))
 
-
+//Fonction de validation des conditions d'utilisation
 function checkboxControle() {
     isChecked = false;
     let errorMsg = checkboxRequired.nextElementSibling;
@@ -152,10 +149,8 @@ function validate(){
             alert("Vérifiez le formulaire");
         }
         else{
-            //Envoyer les données du formulaire sur la console 
             console.log(firstName.value, lastName.value, email.value, );
             //Affichage de la modal de confirmation
             validationWindow();
-            //vider les champs du formulaire (reset ) 
         }
 }

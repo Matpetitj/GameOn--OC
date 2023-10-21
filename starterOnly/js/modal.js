@@ -4,26 +4,26 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closingCross = document.getElementById("cross");
 
-// launch modal event
+// Evenement pour lancer la fonction d'ouverture du formulaire
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// launch modal form
+// Ouvre de le formulaire
 function launchModal() {
   modalbg.style.display = "block";
 }
 
-// close the modal form
+// Ferme le formulaire
 function closeModal() {
   modalbg.style.display = "none";
 }
 closingCross.addEventListener('click', closeModal);
 
-// When the user clicks anywhere outside of the modal, close it
-// window.onclick = function(event) {
-//   if (event.target == modalbg) {
-//     modalbg.style.display = "none";
-//   }
-// }
+// Si un utilisateur clique en dehors de la fenêtre, cela ferme également le formulaire
+window.onclick = function(event) {
+  if (event.target == modalbg) {
+    modalbg.style.display = "none";
+  }
+}
 
 // Function nav responsive
 function editNav() {
