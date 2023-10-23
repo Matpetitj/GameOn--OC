@@ -149,7 +149,6 @@ function validate(){
             alert("Vérifiez le formulaire");
         }
         else{
-            console.log(firstName.value, lastName.value, email.value, );
             //Affichage de la modal de confirmation
             validationWindow();
         }
